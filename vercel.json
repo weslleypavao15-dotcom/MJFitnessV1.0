@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm --filter @workspace/mj-fitness run build",
-  "outputDirectory": "artifacts/mj-fitness/dist/public",
+  "outputDirectory": "dist",
   "installCommand": "pnpm install",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
