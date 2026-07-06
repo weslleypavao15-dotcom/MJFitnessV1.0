@@ -4,10 +4,16 @@ import { MenuPrincipal } from './pages/MenuPrincipal';
 import { Alunos } from './pages/Alunos';
 import { Financeiro } from './pages/Financeiro';
 import { ToastContainer } from './components/Toast';
+import { Login } from './pages/Login';
 
 function App() {
+  const [autenticado, setAutenticado] = useState(() => localStorage.getItem('mj_auth') === '1');
   const [currentView, setCurrentView] = useState<'home' | 'alunos' | 'financeiro'>('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (!autenticado) {
+    return <Login onLogin={() => setAutenticado(true)} />;
+  }
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
