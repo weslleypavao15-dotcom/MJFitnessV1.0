@@ -19,7 +19,7 @@ export function Login({ onLogin }: LoginProps) {
 
     setTimeout(() => {
       if (usuario === 'Wiepz13' && senha === 'Yami.884!') {
-        localStorage.setItem('mj_auth', '1');
+        sessionStorage.setItem('mj_auth', '1');
         onLogin();
       } else {
         setErro('Usuário ou senha incorretos.');

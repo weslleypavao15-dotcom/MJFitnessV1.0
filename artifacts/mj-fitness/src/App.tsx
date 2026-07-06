@@ -9,13 +9,13 @@ import { Login } from './pages/Login';
 const TIMEOUT_MS = 5 * 60 * 1000;
 
 function App() {
-  const [autenticado, setAutenticado] = useState(() => localStorage.getItem('mj_auth') === '1');
+  const [autenticado, setAutenticado] = useState(() => sessionStorage.getItem('mj_auth') === '1');
   const [currentView, setCurrentView] = useState<'home' | 'alunos' | 'financeiro'>('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function sair() {
-    localStorage.removeItem('mj_auth');
+    sessionStorage.removeItem('mj_auth');
     setAutenticado(false);
   }
 
