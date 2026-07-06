@@ -1,15 +1,44 @@
-import React, { useState } from 'react';
-import { Menu, Home, Users, DollarSign, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, Home, Users, DollarSign, X, LogOut } from 'lucide-react';
 import { MenuPrincipal } from './pages/MenuPrincipal';
 import { Alunos } from './pages/Alunos';
 import { Financeiro } from './pages/Financeiro';
 import { ToastContainer } from './components/Toast';
 import { Login } from './pages/Login';
 
+const TIMEOUT_MS = 5 * 60 * 1000;
+
 function App() {
   const [autenticado, setAutenticado] = useState(() => localStorage.getItem('mj_auth') === '1');
   const [currentView, setCurrentView] = useState<'home' | 'alunos' | 'financeiro'>('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function sair() {
+    localStorage.removeItem('mj_auth');
+    setAutenticado(false);
+  }
+
+  useEffect(() => {
+    if (!autenticado) return;
+
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        timerRef.current = setTimeout(sair, TIMEOUT_MS);
+      } else {
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+          timerRef.current = null;
+        }
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [autenticado]);
 
   if (!autenticado) {
     return <Login onLogin={() => setAutenticado(true)} />;
@@ -39,7 +68,7 @@ function App() {
         fixed md:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out flex flex-col
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
-        {/* Sidebar mobile header – logo centralizado com espaço espelho */}
+        {/* Sidebar mobile header */}
         <div className="h-16 flex items-center px-4 border-b border-gray-100 bg-[#5A0B13] md:hidden">
           <div className="w-8 shrink-0" />
           <div className="flex-1 flex justify-center">
@@ -74,13 +103,23 @@ function App() {
             );
           })}
         </nav>
+
+        {/* Botão Sair */}
+        <div className="px-4 py-4 border-t border-gray-100">
+          <button
+            onClick={sair}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-[#5A0B13] transition-colors"
+          >
+            <LogOut size={20} />
+            Sair
+          </button>
+        </div>
       </aside>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Topbar */}
         <header className="h-16 bg-[#5A0B13] flex items-center px-4 sticky top-0 z-30 shadow-md">
-          {/* Mobile menu button – stays on the left */}
           <button
             onClick={toggleSidebar}
             aria-label="Abrir menu"
@@ -89,12 +128,6 @@ function App() {
             <Menu size={24} />
           </button>
 
-          {/* Logo – centered in the full header width */}
-          {/*
-            LOGO: para trocar a imagem, edite apenas o src abaixo.
-            - Arquivo local:  src="/logo.png"   (coloque o arquivo em public/)
-            - URL externa:    src="https://..."
-          */}
           <div className="flex-1 flex justify-center">
             <img
               src="/logo.png"
@@ -103,7 +136,6 @@ function App() {
             />
           </div>
 
-          {/* Espaço espelho para balancear o botão mobile e manter o logo centralizado */}
           <div className="w-10 md:hidden" />
         </header>
 
