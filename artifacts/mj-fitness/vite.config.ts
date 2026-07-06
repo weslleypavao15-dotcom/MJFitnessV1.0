@@ -48,9 +48,7 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir: isProduction
-      ? path.resolve(import.meta.dirname, '..', '..', 'dist')
-      : path.resolve(import.meta.dirname, 'dist/public'),
+    outDir: path.resolve(import.meta.dirname, '..', '..', 'dist'),
     emptyOutDir: true,
   },
   server: {
