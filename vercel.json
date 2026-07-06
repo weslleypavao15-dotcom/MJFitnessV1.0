@@ -2,6 +2,9 @@
   "buildCommand": "pnpm --filter @workspace/mj-fitness run build",
   "outputDirectory": "artifacts/mj-fitness/dist",
   "installCommand": "pnpm install",
+  "redirects": [
+    { "source": "/.well-known/avatar", "destination": "/avatar.png", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]

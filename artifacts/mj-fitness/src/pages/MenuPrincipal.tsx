@@ -5,14 +5,6 @@ import { Modal } from '../components/Modal';
 import { getTodayISO } from '../utils/dates';
 import { PaymentMethod } from '../types';
 
-function formatCPF(value: string): string {
-  const d = value.replace(/\D/g, '').slice(0, 11);
-  if (d.length <= 3) return d;
-  if (d.length <= 6) return `${d.slice(0, 3)}.${d.slice(3)}`;
-  if (d.length <= 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`;
-  return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`;
-}
-
 function formatPhone(value: string): string {
   const d = value.replace(/\D/g, '').slice(0, 11);
   if (d.length === 0) return '';
@@ -30,7 +22,6 @@ export function MenuPrincipal() {
 
   const [formData, setFormData] = useState({
     name: '',
-    cpf: '',
     phone: '',
     enrollmentDate: getTodayISO(),
     plan: 'Plano Mensal – R$ 100,00' as "Plano Mensal – R$ 100,00",
@@ -41,7 +32,7 @@ export function MenuPrincipal() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.cpf || !formData.phone || !formData.enrollmentDate) return;
+    if (!formData.name || !formData.phone || !formData.enrollmentDate) return;
     setIsConfirmModalOpen(true);
   };
 
@@ -49,7 +40,6 @@ export function MenuPrincipal() {
     await addStudent(
       {
         name: formData.name,
-        cpf: formData.cpf,
         phone: formData.phone,
         enrollmentDate: formData.enrollmentDate,
         plan: formData.plan,
@@ -58,7 +48,6 @@ export function MenuPrincipal() {
     );
     setFormData({
       name: '',
-      cpf: '',
       phone: '',
       enrollmentDate: getTodayISO(),
       plan: 'Plano Mensal – R$ 100,00',
@@ -119,18 +108,6 @@ export function MenuPrincipal() {
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#5A0B13] focus:border-[#5A0B13] outline-none text-black bg-white"
                 placeholder="Ex: João da Silva"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">CPF</label>
-              <input
-                type="text"
-                required
-                value={formData.cpf}
-                onChange={(e) => setFormData({ ...formData, cpf: formatCPF(e.target.value) })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#5A0B13] focus:border-[#5A0B13] outline-none text-black bg-white"
-                placeholder="000.000.000-00"
               />
             </div>
 

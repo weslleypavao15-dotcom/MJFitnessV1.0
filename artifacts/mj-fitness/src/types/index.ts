@@ -3,7 +3,6 @@ export type PaymentMethod = "💠 Pix" | "💵 Dinheiro" | "💳 Cartão de Cré
 export type Student = {
   id: string;
   name: string;
-  cpf: string;
   phone: string;
   plan: "Plano Mensal – R$ 100,00";
   enrollmentDate: string; // ISO date YYYY-MM-DD  →  data_matricula no Supabase

@@ -12,13 +12,12 @@ function addOneMonth(dateString: string): string {
 }
 
 // Mapeia linha do Supabase → tipo Student (camelCase)
-// Colunas na tabela students: id, nome, cpf, telefone, plano, data_matricula, data_vencimento
+// Colunas na tabela students: id, nome, telefone, plano, data_matricula, data_vencimento
 function rowToStudent(row: Record<string, unknown>): Student {
   const dueDate = row.data_vencimento as string;
   return {
     id: row.id as string,
     name: row.nome as string,
-    cpf: row.cpf as string,
     phone: row.telefone as string,
     plan: row.plano as "Plano Mensal – R$ 100,00",
     enrollmentDate: row.data_matricula as string,
@@ -82,7 +81,6 @@ export function useData() {
       .from('students')
       .insert({
         nome: studentData.name,
-        cpf: studentData.cpf,
         telefone: studentData.phone,
         plano: studentData.plan,
         data_matricula: studentData.enrollmentDate,

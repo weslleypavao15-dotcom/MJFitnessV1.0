@@ -16,9 +16,7 @@ export function Alunos() {
   const [renewStep, setRenewStep] = useState(1);
 
   const filteredStudents = students.filter(
-    (s) =>
-      s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.cpf.includes(searchTerm)
+    (s) => s.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleOpenRenew = (student: Student) => {
@@ -59,7 +57,7 @@ export function Alunos() {
         <Search className="text-gray-400 mr-2" size={20} />
         <input
           type="text"
-          placeholder="Buscar por nome ou CPF..."
+          placeholder="Buscar por nome..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="bg-transparent border-none outline-none w-full text-black placeholder-gray-500"
@@ -89,9 +87,6 @@ export function Alunos() {
               <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
                 <div className="text-gray-500">
                   ID: <span className="text-black">{student.id.split('-')[0]}</span>
-                </div>
-                <div className="text-gray-500">
-                  CPF: <span className="text-black">{student.cpf}</span>
                 </div>
                 <div className="text-gray-500">
                   Tel: <span className="text-black">{student.phone}</span>
