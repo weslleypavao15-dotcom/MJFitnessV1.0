@@ -2,6 +2,12 @@
   "buildCommand": "pnpm --filter @workspace/mj-fitness run build",
   "outputDirectory": "artifacts/mj-fitness/dist",
   "installCommand": "pnpm install",
+  "build": {
+    "env": {
+      "VITE_SUPABASE_URL": "https://fhzrdleyvlcottvpyqpk.supabase.co",
+      "VITE_SUPABASE_ANON_KEY": "sb_publishable_sRT48nHssi0o_xrmc-YT_A_QiExr2VE"
+    }
+  },
   "redirects": [
     { "source": "/.well-known/avatar", "destination": "/avatar.png", "permanent": false }
   ],
